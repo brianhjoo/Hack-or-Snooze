@@ -75,21 +75,15 @@ class StoryList {
 
   async addStory(user, newStory) {
     // UNIMPLEMENTED: complete this function!
-    console.log("user: ", user);
-    console.log("newStory: ", newStory);
+    const response = await axios({
+      url: `${BASE_URL}/stories`,
+      method: "POST",
+      data: { token: user.loginToken, story: newStory },
+    });
 
-    // POST request
-    const response = await axios.post(
-        `${BASE_URL}/stories`,
-        {
-          "story": newStory,
-          "token": user.loginToken
-        },
-      );
+    const { storyId, title, author, url, username, createdAt } = response.data.story;
 
-    console.log(response);
-
-    return new Story();
+    return new Story(storyId, title, author, url, username, createdAt);
   }
 }
 
@@ -105,13 +99,13 @@ class User {
    */
 
   constructor({
-                username,
-                name,
-                createdAt,
-                favorites = [],
-                ownStories = []
-              },
-              token) {
+    username,
+    name,
+    createdAt,
+    favorites = [],
+    ownStories = []
+  },
+    token) {
     this.username = username;
     this.name = name;
     this.createdAt = createdAt;
