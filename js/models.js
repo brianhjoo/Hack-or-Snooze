@@ -202,4 +202,40 @@ class User {
       return null;
     }
   }
+
+  async addFavorite(story) {
+    const response = await axios({
+      url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
+      method: "POST",
+      data: { token: this.loginToken },
+    });
+
+    // const currentAddFavoriteStory = response.
+
+    // this.favorites.push(response.data.user.favorites);
+    console.log('this.favorites: ', this.favorites);
+
+    // localStorage.setItem('favorites', currentUser.favorites);
+    console.log('addFavorite response: ', response);
+  }
+
+  async removeFavorite(story) {
+    const response = await axios({
+      url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
+      method: "DELETE",
+      data: { token: this.loginToken },
+    });
+
+    const filteredStoryIds = this.favorites.filter(favoriteStory => {
+      console.log('storyId: ', favoriteStory.storyId, 'story.storyId: ', story.storyId);
+      return favoriteStory.storyId !== story.storyId;
+    });
+
+    this.favorites = filteredStoryIds;
+
+    console.log('this.favorites after removal: ', this.favorites);
+
+    // localStorage.removeItem('favorites', currentUser.favorites);
+    console.log('removeFavorite response: ', response);
+  }
 }
