@@ -55,7 +55,7 @@ function putStoriesOnPage() {
  * prepends them to the existing story list.
  */
 
-async function handleSubmitFormInputs(evt) {
+async function createAndDisplayNewStory(evt) {
   evt.preventDefault();
 
   const authorInput = $('#create-author').val();
@@ -68,11 +68,19 @@ async function handleSubmitFormInputs(evt) {
     url: urlInput,
   };
 
-  let story = await storyList.addStory(currentUser, newStory);
+  const story = await storyList.addStory(currentUser, newStory);
 
   const storyHTML = generateStoryMarkup(story);
 
   $allStoriesList.prepend(storyHTML);
+
+  // Clear form input
+  $('#create-author').val("");
+  $('#create-title').val("");
+  $('#create-url').val("");
+
+  // Hide form after submission
+  $("#submit-form").attr("style", "display:none");
 }
 
-$("#submit-form").on('submit', handleSubmitFormInputs);
+$("#submit-form").on('submit', createAndDisplayNewStory);
