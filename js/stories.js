@@ -75,5 +75,4 @@ async function handleSubmitFormInputs(evt) {
   $allStoriesList.prepend(storyHTML);
 }
 
-
 $("#submit-form").on('submit', handleSubmitFormInputs);
