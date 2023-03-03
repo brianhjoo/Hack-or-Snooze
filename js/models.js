@@ -212,11 +212,7 @@ class User {
 
     // const currentAddFavoriteStory = response.
 
-    // this.favorites.push(response.data.user.favorites);
-    console.log('this.favorites: ', this.favorites);
-
-    // localStorage.setItem('favorites', currentUser.favorites);
-    console.log('addFavorite response: ', response);
+    this.favorites.push(story);
   }
 
   async removeFavorite(story) {
@@ -227,7 +223,7 @@ class User {
     });
 
     const filteredStoryIds = this.favorites.filter(favoriteStory => {
-      console.log('storyId: ', favoriteStory.storyId, 'story.storyId: ', story.storyId);
+      // console.log('storyId: ', favoriteStory.storyId, 'story.storyId: ', story.storyId);
       return favoriteStory.storyId !== story.storyId;
     });
 
