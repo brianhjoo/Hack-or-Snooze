@@ -83,7 +83,7 @@ class StoryList {
 
     const { storyId, title, author, url, username, createdAt } = response.data.story;
 
-    return new Story(storyId, title, author, url, username, createdAt);
+    return new Story({ storyId, title, author, url, username, createdAt });
   }
 }
 

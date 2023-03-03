@@ -51,21 +51,29 @@ function putStoriesOnPage() {
   $allStoriesList.show();
 }
 
+/** Gets inputs from form and generates new story.  Creates new HTML elements and
+ * prepends them to the existing story list.
+ */
+
 async function handleSubmitFormInputs(evt) {
   evt.preventDefault();
+
   const authorInput = $('#create-author').val();
   const titleInput = $('#create-title').val();
-  const urlInput = $('#create-url').val()
+  const urlInput = $('#create-url').val();
 
-  const newStory = new StoryList({
+  const newStory = {
     title: titleInput,
     author: authorInput,
     url: urlInput,
-   });
+  };
 
-   
-   let story = await newStory.addStory(currentUser, newStory);
-   console.log(story);
+  let story = await storyList.addStory(currentUser, newStory);
+
+  const storyHTML = generateStoryMarkup(story);
+
+  $allStoriesList.prepend(storyHTML);
 }
+
 
 $("#submit-form").on('submit', handleSubmitFormInputs);
