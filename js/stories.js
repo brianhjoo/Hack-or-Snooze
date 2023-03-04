@@ -26,7 +26,7 @@ function generateStoryMarkup(story) {
   return $(`
       <li id="${story.storyId}">
         <span class="star">
-          <i class="bi bi-star unfavorited"></i>
+          <i class="bi bi-star"></i>
         </span>
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
@@ -88,14 +88,44 @@ async function createAndDisplayNewStory(evt) {
 
 $("#submit-form").on('submit', createAndDisplayNewStory);
 
-function displayFavorites() {
 
+/**  */
+function displayFavorites(listOfFavorites) {
+  for (let favoriteStory of listOfFavorites) {
+    const favoriteStoryMarkUp = generateStoryMarkup(favoriteStory);
+    $('#favorited-stories').prepend(favoriteStoryMarkUp);
+  }
+  $('i').toggleClass('bi-star bi-star-fill');
 }
 
-function handleFavoritedStar(evt) {
-  console.log(evt.target);
-  $(evt.target).toggleClass("bi bi-star-filled favorited", 
-  "bi bi-star unfavorited");
+// $('i').closest('i').toggleClass('bi-star bi-star-fill');
+
+
+
+async function handleFavoritedStar(evt) {
+
+  const $newStoryLi = $(evt.target).closest('li');
+
+  const id = $newStoryLi.attr('id');
+
+  const foundFavoriteStory = storyList.stories.filter(story => {
+    return story.storyId === id;
+  });
+
+  // if not favorited yet
+  if ($(evt.target).hasClass('bi-star')) {
+    $(evt.target).closest('i').toggleClass('bi-star bi-star-fill');
+
+    // const [favoriteStory] = foundFavoriteStory;
+
+    await currentUser.addFavorite(foundFavoriteStory[0]);
+  } else {
+    $(evt.target).closest('i').toggleClass('bi-star-fill bi-star');
+
+    // const [favoriteStory] = foundFavoriteStory;
+
+    await currentUser.removeFavorite(foundFavoriteStory[0]);
+  }
 }
 
-$(".stories-list").on('click', $('.star'), handleFavoritedStar);
+$('.stories-list').on('click', $('.star'), handleFavoritedStar);

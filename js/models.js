@@ -210,8 +210,6 @@ class User {
       data: { token: this.loginToken },
     });
 
-    // const currentAddFavoriteStory = response.
-
     this.favorites.push(story);
   }
 
@@ -223,15 +221,9 @@ class User {
     });
 
     const filteredStoryIds = this.favorites.filter(favoriteStory => {
-      // console.log('storyId: ', favoriteStory.storyId, 'story.storyId: ', story.storyId);
       return favoriteStory.storyId !== story.storyId;
     });
 
     this.favorites = filteredStoryIds;
-
-    console.log('this.favorites after removal: ', this.favorites);
-
-    // localStorage.removeItem('favorites', currentUser.favorites);
-    console.log('removeFavorite response: ', response);
   }
 }

@@ -46,12 +46,15 @@ function navSubmitClick(evt) {
 
 $navSubmit.on("click", navSubmitClick);
 
-function displayOnlyFavorites(evt) {
+function handleFavoritesNav(evt) {
   evt.preventDefault();
   $("#all-stories-list").hide();
 
+  $('#favorited-stories').empty();
 
+  displayFavorites(currentUser.favorites);
+  $('#favorited-stories').attr('style', 'display: block');
 }
 
-$favoritesTab.on("click", displayOnlyFavorites);
+$favoritesTab.on("click", handleFavoritesNav);
 
